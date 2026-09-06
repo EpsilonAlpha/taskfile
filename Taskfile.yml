@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  apt-maintenance:
+    desc: Aktualisiert APT-Pakete und entfernt nicht mehr benoetigte Abhaengigkeiten
+    preconditions:
+      - sh: command -v apt-get >/dev/null 2>&1
+        msg: Diese Task ist nur auf Debian-/Ubuntu-basierten Systemen verfuegbar.
+      - sh: command -v sudo >/dev/null 2>&1
+        msg: Diese Task benoetigt sudo.
+    cmds:
+      - sudo apt-get update
+      - sudo env DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+      - sudo env DEBIAN_FRONTEND=noninteractive apt-get autoremove -y
